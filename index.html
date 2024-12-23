@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Recommender</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Recipe Recommender</h1>
+        <form method="POST">
+            <label for="ingredients">Enter Ingredients (comma separated):</label>
+            <input type="text" id="ingredients" name="ingredients" placeholder="e.g., chicken, spinach, garlic" required>
+            <button type="submit">Get Recipes</button>
+        </form>
+
+        {% if recipes %}
+        <h2>Recipes Based on "{{ ingredients }}"</h2>
+        <div class="recipe-list">
+            {% for recipe in recipes %}
+            <div class="recipe-card">
+                <img src="{{ recipe['image'] }}" alt="{{ recipe['title'] }}">
+                <h3>{{ recipe['title'] }}</h3>
+                <p><strong>Ingredients:</strong> {{ recipe['ingredients'] | join(', ') }}</p>
+                <p><strong>Instructions:</strong> {{ recipe['instructions'][:200] }}...</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% elif error_message %}
+        <p>{{ error_message }}</p>
+        {% endif %}
+    </div>
+
+</body>
+</html>
